@@ -66,7 +66,7 @@ class DeviceTableViewController: UITableViewController, WCSessionDelegate {
 
         // Set up the Edit button
         self.navigationItem.rightBarButtonItem = self.editButtonItem
-        self.navigationItem.rightBarButtonItem!.tintColor = UIColor.black
+        self.navigationItem.rightBarButtonItem!.tintColor = UIColor.white
         self.navigationItem.rightBarButtonItem!.action = #selector(self.editTouched)
 
         // Set up the Actions button
@@ -75,7 +75,8 @@ class DeviceTableViewController: UITableViewController, WCSessionDelegate {
                                            target: self,
                                            action: #selector(self.actionsTouched))
         self.navigationItem.leftBarButtonItem = actionButton
-        self.navigationItem.leftBarButtonItem!.tintColor = UIColor.black
+        self.navigationItem.leftBarButtonItem!.tintColor = UIColor.white
+        self.navigationItem.title = "Devices"
 
         // Initialise object properties
         self.editingDevice = nil
@@ -638,7 +639,12 @@ class DeviceTableViewController: UITableViewController, WCSessionDelegate {
         
         // Get the correct icon image for the app
         let imageName: String = getAppType(code)
-        return UIImage(named: imageName)
+        let image: UIImage? = UIImage(named: imageName)
+        if image != nil {
+            return image!
+        } else {
+            return UIImage(named: "unknown")
+        }
     }
     
     func getAppType(_ code:String) -> String {

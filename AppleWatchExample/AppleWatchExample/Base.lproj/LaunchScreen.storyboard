@@ -18,22 +18,35 @@
                         <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
-                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" textAlignment="center" lineBreakMode="tailTruncation" numberOfLines="2" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="040-G2-N9D">
-                                <rect key="frame" x="0.0" y="306" width="375" height="55"/>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Copyright © Electric Imp, Inc. 2018" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Ke0-7p-siY">
+                                <rect key="frame" x="0.0" y="592" width="375" height="55"/>
                                 <constraints>
-                                    <constraint firstAttribute="height" constant="55" id="uf4-F7-4zu"/>
+                                    <constraint firstAttribute="height" relation="greaterThanOrEqual" constant="32" id="MRt-ND-nm4"/>
+                                    <constraint firstAttribute="height" constant="55" id="bk9-Tf-7GZ"/>
+                                </constraints>
+                                <fontDescription key="fontDescription" type="system" pointSize="14"/>
+                                <color key="textColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                <nil key="highlightedColor"/>
+                            </label>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" textAlignment="center" lineBreakMode="tailTruncation" numberOfLines="2" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="040-G2-N9D">
+                                <rect key="frame" x="0.0" y="288" width="375" height="90"/>
+                                <constraints>
+                                    <constraint firstAttribute="height" constant="90" id="uf4-F7-4zu"/>
                                 </constraints>
                                 <string key="text">Electric Imp
 Apple Watch Example</string>
-                                <fontDescription key="fontDescription" type="system" pointSize="23"/>
-                                <nil key="textColor"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="28"/>
+                                <color key="textColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                 <nil key="highlightedColor"/>
                             </label>
                         </subviews>
-                        <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                        <color key="backgroundColor" red="0.049625284970000003" green="0.66577929260000002" blue="0.70767682789999997" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                         <constraints>
                             <constraint firstItem="040-G2-N9D" firstAttribute="centerY" secondItem="Ze5-6b-2t3" secondAttribute="centerY" id="Hjh-Jp-c9W"/>
+                            <constraint firstItem="Ke0-7p-siY" firstAttribute="leading" secondItem="6Tk-OE-BBY" secondAttribute="leading" id="Kv4-qP-Lzo"/>
                             <constraint firstItem="040-G2-N9D" firstAttribute="trailing" secondItem="6Tk-OE-BBY" secondAttribute="trailing" id="RGs-II-zb6"/>
+                            <constraint firstItem="6Tk-OE-BBY" firstAttribute="bottom" secondItem="Ke0-7p-siY" secondAttribute="bottom" constant="20" id="VCZ-OV-gKf"/>
+                            <constraint firstItem="Ke0-7p-siY" firstAttribute="trailing" secondItem="6Tk-OE-BBY" secondAttribute="trailing" id="YHx-vh-Xb6"/>
                             <constraint firstItem="040-G2-N9D" firstAttribute="leading" secondItem="6Tk-OE-BBY" secondAttribute="leading" id="bqr-R1-Hxu"/>
                         </constraints>
                         <viewLayoutGuide key="safeArea" id="6Tk-OE-BBY"/>

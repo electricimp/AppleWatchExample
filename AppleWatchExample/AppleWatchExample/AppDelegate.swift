@@ -42,6 +42,9 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         // Point 'myDevices' at the device list singleton
         self.myDevices = DeviceList.sharedDevices
 
+        // Set universal window tint for views that delegate this property to this object
+        self.window!.tintColor = UIColor.init(red: 0.05, green: 0.67, blue: 0.70, alpha: 1.0)
+
         // Load in default device list if the file has already been saved
         let docsPath = self.docsDir[0] + "/devices"
         if FileManager.default.fileExists(atPath: docsPath) {

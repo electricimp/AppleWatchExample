@@ -178,29 +178,39 @@ class DeviceDetailViewController: UIViewController,
 
     func getDeviceInfo() {
 
-        if let code = self.codeField.text {
-            let url:URL? = URL(string: "https://agent.electricimp.com/" + code + "/controller/info")
+        if let code : String = self.codeField.text {
+            if code.count != 0 {
+                let url:URL? = URL(string: "https://agent.electricimp.com/" + code + "/controller/info")
 
-            if url == nil {
-                reportError("DeviceDetailViewController.getDeviceInfo() generated a malformed URL string", "Could not connect to the device")
-                return
+                if url == nil {
+                    reportError("DeviceDetailViewController.getDeviceInfo() generated a malformed URL string", "Could not connect to the device")
+                    return
+                }
+
+                connectionProgress.startAnimating()
+
+                var request:URLRequest = URLRequest(url:url!,
+                                                    cachePolicy:URLRequest.CachePolicy.reloadIgnoringLocalCacheData,
+                                                    timeoutInterval:60.0)
+                request.httpMethod = "GET"
+
+                if self.serverSession == nil {
+                    self.serverSession = URLSession(configuration:URLSessionConfiguration.default,
+                                                    delegate:self,
+                                                    delegateQueue:OperationQueue.main)
+                }
+
+                let task:URLSessionDataTask = serverSession!.dataTask(with:request)
+                task.resume()
+            } else {
+                let alert = UIAlertController.init(title: "Missing Agent ID",
+                                                   message: "Please enter an agent ID in the appropriate field",
+                                                   preferredStyle: UIAlertControllerStyle.alert)
+                alert.addAction(UIAlertAction(title: NSLocalizedString("OK", comment: "Default action"),
+                                              style: UIAlertActionStyle.default,
+                                              handler: nil))
+                self.present(alert, animated: true)
             }
-
-            connectionProgress.startAnimating()
-
-            var request:URLRequest = URLRequest(url:url!,
-                                                cachePolicy:URLRequest.CachePolicy.reloadIgnoringLocalCacheData,
-                                                timeoutInterval:60.0)
-            request.httpMethod = "GET"
-
-            if self.serverSession == nil {
-                self.serverSession = URLSession(configuration:URLSessionConfiguration.default,
-                                                delegate:self,
-                                                delegateQueue:OperationQueue.main)
-            }
-
-            let task:URLSessionDataTask = serverSession!.dataTask(with:request)
-            task.resume()
         }
     }
 
