@@ -34,6 +34,9 @@
                             </items>
                         </table>
                     </items>
+                    <connections>
+                        <outlet property="deviceTable" destination="sq3-4n-gMP" id="VGM-SH-mAw"/>
+                    </connections>
                 </controller>
             </objects>
             <point key="canvasLocation" x="34" y="81.512820512820525"/>
@@ -48,7 +51,7 @@
                         </label>
                         <group width="1" alignment="left" id="gri-Wv-Fpx">
                             <items>
-                                <imageView width="16" height="16" alignment="right" verticalAlignment="center" image="offline" id="3J3-m5-aOr"/>
+                                <imageView width="16" height="16" alignment="right" image="offline" id="3J3-m5-aOr"/>
                                 <label alignment="left" text="MyFirstApp" id="s40-Nd-qyE">
                                     <fontDescription key="font" type="italicSystem" pointSize="12"/>
                                 </label>
