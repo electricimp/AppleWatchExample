@@ -39,10 +39,18 @@ class MyFirstAppInterfaceController: WKInterfaceController, URLSessionDataDelega
     var aDevice: Device? = nil
     var serverSession: URLSession?
     var connexions: [Connexion] = []
-    var initialQueryFlag: Bool = false
     var isConnected: Bool = false
     var flashState: Bool = false
     var loadingTimer: Timer!
+
+    // MARK: Generic constants
+    enum Actions {
+        // These are codes for possible actions. They are used to check whether,
+        // after the action has been performed, that follow-on actions are required
+        static let Other = 0
+        static let GetSettings = 1
+        static let ResetSetttings = 2
+    }
 
     // MARK: App-specific outlets
     @IBOutlet weak var updateButton: WKInterfaceButton!
@@ -50,8 +58,8 @@ class MyFirstAppInterfaceController: WKInterfaceController, URLSessionDataDelega
     @IBOutlet weak var stateSwitch: WKInterfaceSwitch!
     // NOTE The 'Back' button should be considered as generic to all apps
 
-    // MARK: App-specific properties
-    let appName: String = "MyFirstApp"
+    // MARK: App-specific constants
+    let APP_NAME: String = "MyFirstApp"
 
 
     // MARK: - Generic Lifecycle Functions
@@ -94,8 +102,7 @@ class MyFirstAppInterfaceController: WKInterfaceController, URLSessionDataDelega
         }
         
         // Get the device's current status
-        self.initialQueryFlag = true
-        let success = makeConnection(nil, nil)
+        let success = makeConnection(nil, nil, Actions.GetSettings)
         if success {
             // Start the 'getting state' state indicator flash loop
             // (but only if we successfully attempted to talk to the agent)
@@ -144,7 +151,7 @@ class MyFirstAppInterfaceController: WKInterfaceController, URLSessionDataDelega
         // so that a refresh of the UI is triggered once the agent
         // has responded
         // NOTE We don't care what the result was
-        let _ = makeConnection(dict, "/actions", 1)
+        let _ = makeConnection(dict, "/actions", Actions.ResetSetttings)
     }
 
     @IBAction func setState(value: Bool) {
@@ -174,7 +181,7 @@ class MyFirstAppInterfaceController: WKInterfaceController, URLSessionDataDelega
     
     // MARK: - Generic Connection Functions
 
-    func makeConnection(_ data:[String:String]?, _ path:String?, _ code:Int = 0) -> Bool {
+    func makeConnection(_ data:[String:String]?, _ path:String?, _ code:Int = Actions.Other) -> Bool {
 
         // Establish a connection to the device's agent
         // PARAMETERS
@@ -189,7 +196,7 @@ class MyFirstAppInterfaceController: WKInterfaceController, URLSessionDataDelega
         let url:URL? = URL(string: urlPath)
         
         if url == nil {
-            reportError(appName + ".makeConnecion() passed malformed URL string + \(urlPath)")
+            reportError(APP_NAME + ".makeConnecion() passed malformed URL string + \(urlPath)")
             return false
         }
         
@@ -208,7 +215,7 @@ class MyFirstAppInterfaceController: WKInterfaceController, URLSessionDataDelega
                 request.httpBody = try JSONSerialization.data(withJSONObject: data!, options: [])
                 request.httpMethod = "POST"
             } catch {
-                reportError(appName + ".makeConnection() passed malformed data")
+                reportError(APP_NAME + ".makeConnection() passed malformed data")
                 return false
             }
         }
@@ -223,7 +230,7 @@ class MyFirstAppInterfaceController: WKInterfaceController, URLSessionDataDelega
             task.resume()
             self.connexions.append(aConnexion)
         } else {
-            reportError(self.appName + ".makeConnection() couldn't create a SessionTask")
+            reportError(self.APP_NAME + ".makeConnection() couldn't create a SessionTask")
             return false
         }
 
@@ -282,7 +289,7 @@ class MyFirstAppInterfaceController: WKInterfaceController, URLSessionDataDelega
         if error != nil {
             // React to a passed client-side error - most likely a timeout or inability to resolve the URL
             // Notify the host app
-            reportError(appName + " could not connect to the impCloud")
+            reportError(APP_NAME + " could not connect to the impCloud")
             
             // Terminate the failed connection and remove it from the list of current connections
             var index = -1
@@ -306,59 +313,52 @@ class MyFirstAppInterfaceController: WKInterfaceController, URLSessionDataDelega
                 let aConnexion = self.connexions[i]
                 if aConnexion.task == task {
                     if let data = aConnexion.data {
-                        if self.initialQueryFlag == true {
+                        if aConnexion.actionCode == Actions.GetSettings {
                             self.loadingTimer.invalidate()
+                            do {
+                                let json = try JSONSerialization.jsonObject(with: data as Data, options: [])
 
-                            // Convert the incoming data from the agent to a string
-                            let inputString = String(data:data as Data, encoding:String.Encoding.ascii)!
+                                if let object: [String: Any] = json as? [String: Any] {
+                                    // The agent code should include the device's connection state in the data,
+                                    // and we use this to set the generic 'isConnected' property.
+                                    if let s: Bool = object["isconnected"] as? Bool {
+                                        self.isConnected = s
+                                    }
+                                    // Set the online/offline indicator
+                                    let nameString = self.isConnected ? "online" : "offline"
+                                    if let image = UIImage.init(named: nameString) {
+                                        self.stateImage.setImage(image)
+                                    }
 
-                            // Incoming string looks like this:
-                            //    1.10.1
-                            //
-                            // with the values:
-                            //    0. state (1 or 0)
-                            //    1. slider value (0-20)
-                            //    2. connection status
+                                    // Set the value slider state
+                                    if let value: Float = object["slidervalue"] as? Float {
+                                        self.valueSlider.setValue(value)
+                                    }
 
-                            let stateArray = inputString.components(separatedBy:".")
-
-                            // The agent code should include the device's connection state in the data,
-                            // and we use this to set the generic 'isConnected' property.
-                            let state: String = stateArray[2] as String
-                            self.isConnected = state == "1" ? true : false
-                            
-                            // Set the online/offline indicator
-                            let nameString = self.isConnected ? "online" : "offline"
-                            if let image = UIImage.init(named: nameString) {
-                                self.stateImage.setImage(image)
+                                    // Set the switch state
+                                    if let s: Bool = object["switchstate"] as? Bool {
+                                        self.stateSwitch.setOn(s)
+                                    }
+                                }
+                            } catch {
+                                reportError("Settings JSON is invalid")
                             }
-
-                            // Set the value slider state
-                            let sliderValue: String = stateArray[1] as String
-                            if let value = Int(sliderValue) {
-                                self.valueSlider.setValue(Float(value))
-                            }
-
-                            // Set the switch state
-                            let modeState: String = stateArray[0] as String
-                            self.stateSwitch.setOn(modeState == "1" ? true : false)
 
                             // Enable or disable app-specific controls according to connection state
                             self.updateButton.setEnabled(self.isConnected)
                             self.valueSlider.setEnabled(self.isConnected)
                             self.stateSwitch.setEnabled(self.isConnected)
 
+                            // Tidy up the UI
                             self.stateImage.setHidden(false)
-                            self.initialQueryFlag = false
                             self.flashState = false
                         }
 
-                        if (aConnexion.actionCode == 1) {
+                        if (aConnexion.actionCode == Actions.ResetSetttings) {
                             // This indicates that we have just sent the reset settings signal to the
                             // device (by pressing the watch UI's button), so we need to now re-load
                             // all the settings in order to update the display
-                            self.initialQueryFlag = true;
-                            let _ = makeConnection(nil, nil)
+                            let _ = makeConnection(nil, nil, Actions.GetSettings)
                         }
 
                         task.cancel()
