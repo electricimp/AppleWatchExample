@@ -180,7 +180,7 @@ class DeviceDetailViewController: UIViewController,
 
         if let code : String = self.codeField.text {
             if code.count != 0 {
-                let url:URL? = URL(string: "https://agent.electricimp.com/" + code + "/controller/info")
+                let url:URL? = URL(string: "https://agent.electricimp.com/" + code + "/applewatchexample/appinfo")
 
                 if url == nil {
                     reportError("DeviceDetailViewController.getDeviceInfo() generated a malformed URL string", "Could not connect to the device")

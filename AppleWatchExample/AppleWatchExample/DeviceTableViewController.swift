@@ -585,6 +585,8 @@ class DeviceTableViewController: UITableViewController, WCSessionDelegate {
                 // Attempt to send the context data
                 try session.updateApplicationContext(["info" : dataString])
                 
+                var installedCount: Int = 0
+
                 // If we're here, we've successfully send the context data,
                 // so update the device records: no longer installing/uninistalling,
                 // and is installed/uninstalled
@@ -600,8 +602,15 @@ class DeviceTableViewController: UITableViewController, WCSessionDelegate {
                             aDevice.installState = self.STATE_NONE
                             aDevice.isInstalled = false
                         }
+
+                        if aDevice.isInstalled {
+                            installedCount = installedCount + 1
+                        }
                     }
                 }
+
+                let defaults: UserDefaults = UserDefaults.standard
+                defaults.set("\(installedCount)", forKey: "com.ei.applewatchexample.devices.installcount")
                 
                 NSLog("Sync list sent")
             } catch {

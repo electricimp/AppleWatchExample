@@ -77,13 +77,13 @@ class MySecondAppInterfaceController: WKInterfaceController, URLSessionDataDeleg
     }
 
     override func didAppear() {
-        
+
         // App is appearing on the screen, either after 'awake()' was called,
         // or if the user never went back to the main menu and instead just
         // switched to another watch app. As a result, we do the main UI
         // state set-up here
         super.didAppear()
-        
+
         // Disable the app-specific buttons - we will re-enable when we're
         // sure that we're connected to the target device's agent
         controlDisabler()
@@ -92,7 +92,7 @@ class MySecondAppInterfaceController: WKInterfaceController, URLSessionDataDeleg
         if let image = UIImage.init(named: "offline") {
             self.stateImage.setImage(image)
         }
-        
+
         // Get the device's current status
         self.initialQueryFlag = true
         let success = makeConnection(nil, nil)
@@ -100,15 +100,15 @@ class MySecondAppInterfaceController: WKInterfaceController, URLSessionDataDeleg
             // Start the 'getting state' state indicator flash loop
             // (but only if we successfully attempted to talk to the agent)
             self.loadingTimer = Timer.scheduledTimer(timeInterval: 0.25,
-                                                    target: self,
-                                                    selector: #selector(dotter),
-                                                    userInfo: nil,
-                                                    repeats: true)
+                                                     target: self,
+                                                     selector: #selector(dotter),
+                                                     userInfo: nil,
+                                                     repeats: true)
         }
     }
-    
+
     @objc func dotter() {
-        
+
         // Flash the indictor by alternately showing and hiding it
         self.stateImage.setHidden(self.flashState)
         self.flashState = !self.flashState
@@ -121,8 +121,8 @@ class MySecondAppInterfaceController: WKInterfaceController, URLSessionDataDeleg
         self.stateSwitch.setEnabled(false)
         self.valueSlider.setEnabled(false)
     }
-    
-    
+
+
     // MARK: - Generic Action Functions
 
     @IBAction func back(_ sender: Any) {
@@ -140,9 +140,11 @@ class MySecondAppInterfaceController: WKInterfaceController, URLSessionDataDeleg
         var dict = [String: String]()
         dict["action"] = "update"
 
-        // Attempt to send the action
+        // Attempt to send the action - and set the action code
+        // so that a refresh of the UI is triggered once the agent
+        // has responded
         // NOTE We don't care what the result was
-        let _ = makeConnection(dict, "/actions")
+        let _ = makeConnection(dict, "/actions", 1)
     }
 
     @IBAction func setState(value: Bool) {
@@ -169,7 +171,7 @@ class MySecondAppInterfaceController: WKInterfaceController, URLSessionDataDeleg
         let _ = makeConnection(dict, "/actions")
     }
 
-    
+
     // MARK: - Generic Connection Functions
 
     func makeConnection(_ data:[String:String]?, _ path:String?, _ code:Int = 0) -> Bool {
@@ -178,28 +180,29 @@ class MySecondAppInterfaceController: WKInterfaceController, URLSessionDataDeleg
         // PARAMETERS
         //    data - A string:string dictionary containg the JSON data for the endpoint
         //    path - The endpoint minus the base path. If path is nil, get the state path
-        //    code - Optional code indicating the action being performed. Default: 0
+        //    code - Optional code indicating the action being performed. This is useful for
+        //           noting certain actions which require follow-on actions. Default: 0
         // RETURNS
         //    Bool - Was the operation successful
 
-        let urlPath :String = deviceBasePath + aDevice!.code + (path != nil ? path! : "/controller/state")
+        let urlPath :String = deviceBasePath + aDevice!.code + (path != nil ? path! : "/applewatchexample/state")
         let url:URL? = URL(string: urlPath)
-        
+
         if url == nil {
             reportError(appName + ".makeConnecion() passed malformed URL string + \(urlPath)")
             return false
         }
-        
+
         if self.serverSession == nil {
             self.serverSession = URLSession(configuration:URLSessionConfiguration.default,
                                             delegate:self,
                                             delegateQueue:OperationQueue.main)
         }
-        
+
         var request = URLRequest(url: url!,
                                  cachePolicy:URLRequest.CachePolicy.reloadIgnoringLocalCacheData,
                                  timeoutInterval: 60.0)
-        
+
         if (data != nil) {
             do {
                 request.httpBody = try JSONSerialization.data(withJSONObject: data!, options: [])
@@ -209,13 +212,13 @@ class MySecondAppInterfaceController: WKInterfaceController, URLSessionDataDeleg
                 return false
             }
         }
-        
+
         let aConnexion = Connexion()
         aConnexion.errorCode = -1
         aConnexion.actionCode = code
         aConnexion.data = NSMutableData.init(capacity:0)
         aConnexion.task = serverSession!.dataTask(with:request)
-        
+
         if let task = aConnexion.task {
             task.resume()
             self.connexions.append(aConnexion)
@@ -250,15 +253,15 @@ class MySecondAppInterfaceController: WKInterfaceController, URLSessionDataDeleg
         // Use it to trap certain status codes
         let rps = response as! HTTPURLResponse
         let code = rps.statusCode;
-        
+
         if code > 399 {
             // The API has responded with a status code that indicates an error
-            
+
             for aConnexion in self.connexions {
                 // Run through the connections in our list and
                 // add the incoming error code to the correct one
                 if aConnexion.task == dataTask { aConnexion.errorCode = code }
-                
+
                 if code == 404 {
                     // Agent is moving for production shift, so delay check
                     completionHandler(URLSession.ResponseDisposition.cancel)
@@ -280,20 +283,20 @@ class MySecondAppInterfaceController: WKInterfaceController, URLSessionDataDeleg
             // React to a passed client-side error - most likely a timeout or inability to resolve the URL
             // Notify the host app
             reportError(appName + " could not connect to the impCloud")
-            
+
             // Terminate the failed connection and remove it from the list of current connections
             var index = -1
-            
+
             for i in 0..<self.connexions.count {
                 // Run through the connections in the list and find the one that has just finished loading
                 let aConnexion = self.connexions[i]
-                
+
                 if aConnexion.task == task {
                     task.cancel()
                     index = i
                 }
             }
-            
+
             if index != -1 { self.connexions.remove(at:index) }
 
             // Clear the 'flash indicator' timer if it's running
@@ -321,9 +324,9 @@ class MySecondAppInterfaceController: WKInterfaceController, URLSessionDataDeleg
 
                             // The agent code should include the device's connection state in the data,
                             // and we use this to set the generic 'isConnected' property.
-                            let state: String = stateArray[8] as String
+                            let state: String = stateArray[2] as String
                             self.isConnected = state == "1" ? true : false
-                            
+
                             // Set the online/offline indicator
                             let nameString = self.isConnected ? "online" : "offline"
                             if let image = UIImage.init(named: nameString) {
@@ -331,7 +334,7 @@ class MySecondAppInterfaceController: WKInterfaceController, URLSessionDataDeleg
                             }
 
                             // Set the value slider state
-                            let sliderValue: String = stateArray[4] as String
+                            let sliderValue: String = stateArray[1] as String
                             if let value = Int(sliderValue) {
                                 self.valueSlider.setValue(Float(value))
                             }
@@ -350,6 +353,14 @@ class MySecondAppInterfaceController: WKInterfaceController, URLSessionDataDeleg
                             self.flashState = false
                         }
 
+                        if (aConnexion.actionCode == 1) {
+                            // This indicates that we have just sent the reset settings signal to the
+                            // device (by pressing the watch UI's button), so we need to now re-load
+                            // all the settings in order to update the display
+                            self.initialQueryFlag = true;
+                            let _ = makeConnection(nil, nil)
+                        }
+
                         task.cancel()
                         self.connexions.remove(at:i)
                         break
@@ -358,9 +369,9 @@ class MySecondAppInterfaceController: WKInterfaceController, URLSessionDataDeleg
             }
         }
     }
-    
+
     func reportError(_ message:String) {
-        
+
         // Generic string logger
         print(message)
     }

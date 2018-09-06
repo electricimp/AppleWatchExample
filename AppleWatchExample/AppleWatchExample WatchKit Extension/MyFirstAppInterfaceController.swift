@@ -140,9 +140,11 @@ class MyFirstAppInterfaceController: WKInterfaceController, URLSessionDataDelega
         var dict = [String: String]()
         dict["action"] = "update"
 
-        // Attempt to send the action
+        // Attempt to send the action - and set the action code
+        // so that a refresh of the UI is triggered once the agent
+        // has responded
         // NOTE We don't care what the result was
-        let _ = makeConnection(dict, "/actions")
+        let _ = makeConnection(dict, "/actions", 1)
     }
 
     @IBAction func setState(value: Bool) {
@@ -178,11 +180,12 @@ class MyFirstAppInterfaceController: WKInterfaceController, URLSessionDataDelega
         // PARAMETERS
         //    data - A string:string dictionary containg the JSON data for the endpoint
         //    path - The endpoint minus the base path. If path is nil, get the state path
-        //    code - Optional code indicating the action being performed. Default: 0
+        //    code - Optional code indicating the action being performed. This is useful for
+        //           noting certain actions which require follow-on actions. Default: 0
         // RETURNS
         //    Bool - Was the operation successful
 
-        let urlPath :String = deviceBasePath + aDevice!.code + (path != nil ? path! : "/controller/state")
+        let urlPath :String = deviceBasePath + aDevice!.code + (path != nil ? path! : "/applewatchexample/state")
         let url:URL? = URL(string: urlPath)
         
         if url == nil {
@@ -321,7 +324,7 @@ class MyFirstAppInterfaceController: WKInterfaceController, URLSessionDataDelega
 
                             // The agent code should include the device's connection state in the data,
                             // and we use this to set the generic 'isConnected' property.
-                            let state: String = stateArray[8] as String
+                            let state: String = stateArray[2] as String
                             self.isConnected = state == "1" ? true : false
                             
                             // Set the online/offline indicator
@@ -331,7 +334,7 @@ class MyFirstAppInterfaceController: WKInterfaceController, URLSessionDataDelega
                             }
 
                             // Set the value slider state
-                            let sliderValue: String = stateArray[4] as String
+                            let sliderValue: String = stateArray[1] as String
                             if let value = Int(sliderValue) {
                                 self.valueSlider.setValue(Float(value))
                             }
@@ -348,6 +351,14 @@ class MyFirstAppInterfaceController: WKInterfaceController, URLSessionDataDelega
                             self.stateImage.setHidden(false)
                             self.initialQueryFlag = false
                             self.flashState = false
+                        }
+
+                        if (aConnexion.actionCode == 1) {
+                            // This indicates that we have just sent the reset settings signal to the
+                            // device (by pressing the watch UI's button), so we need to now re-load
+                            // all the settings in order to update the display
+                            self.initialQueryFlag = true;
+                            let _ = makeConnection(nil, nil)
                         }
 
                         task.cancel()
