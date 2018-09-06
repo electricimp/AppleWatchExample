@@ -32,10 +32,10 @@ local s = server.load();
 if (s.len() == 0) {
     // There are no persisted settings, so create a new one
     setDefaults();
-    server.log("Writing defaults");
+    server.log("Writing default settings");
 } else {
     // 's' is the loaded table of settings, to point 'settings' at the same table
-    server.log("Read settings");
+    server.log("Read settings from persistent storage");
     settings = s;
 }
 
@@ -59,7 +59,7 @@ api.get("/applewatchexample/appinfo", function(context) {
                    "watchsupported": "true" };
     */
 
-    server.log("App info requested");
+    server.log("App info requested by Watch");
     context.send(200, http.jsonencode(info));
 });
 
@@ -70,7 +70,7 @@ api.get("/applewatchexample/state", function(context) {
     // This string is returned by the placeholder function 'getSettings()'.
     // The code add ".1" or ".0" to the end of the string to indicate whether the
     // device is connected to the agent or not
-    server.log("Settings requested");
+    server.log("Settings requested by Watch");
     local settingsString = getSettings();
     context.send(200, settingsString);
 });
@@ -92,7 +92,7 @@ api.post("/actions", function(context) {
 
             if (data.action == "state") {
                 settings.switchState = data.value == "on" ? true : false;
-                server.log("Watch UI switch set " + data.value);
+                server.log("Watch UI switch turned " + data.value);
             }
 
             if (data.action == "slider") {
@@ -114,5 +114,5 @@ api.post("/actions", function(context) {
 
     // Persist the updated settings
     local result = server.save(settings);
-    if (result != 0) server.error("Could not save settings (code: " + result + ")");
+    if (result != 0) server.error("Could not save settings to persistent storage (code: " + result + ")");
 }.bindenv(this));
