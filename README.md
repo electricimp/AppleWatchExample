@@ -1,4 +1,4 @@
-# Apple Watch #
+# Electric Imp Example Code: Apple Watch Support #
 
 Control Electric Imp Platform-based Internet of Things devices from your Apple Watch.
 
@@ -88,6 +88,6 @@ At this time, the example code does not support multiple watches paired to the s
 
 ### Copyright and License ###
 
-Copyright 2018, Electric Imp.
+Copyright &copy; 2018, Electric Imp.
 
 Apple Watch Example is made available under the MIT licence.

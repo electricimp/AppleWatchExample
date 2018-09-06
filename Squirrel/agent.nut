@@ -12,7 +12,7 @@ function setDefaults() {
     settings.switchState <- true;
     settings.sliderValue <- 10;
 
-    // Write the new settings to persistent storage
+    // Write the new settings to persistent storage (overwriting exisiting file)
     server.save(settings);
 }
 
