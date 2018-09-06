@@ -17,11 +17,12 @@ function setDefaults() {
 }
 
 function getSettings() {
-    // Construct a settings string in standard format
-    local settingsString = "2.";
-    if ("switchState" in settings) settingsString = settings.switchState ? "1." : "0.";
-    if ("sliderValue" in settings) settingsString = settingsString + settings.sliderValue.tostring();
-    return settingsString;
+    // Construct a settings string in JSON format
+    local settingsTable = {};
+    settingsTable.switchstate <- ("switchState" in settings ? settings.switchState : true);
+    settingsTable.slidervalue <- ("sliderValue" in settings ? settings.sliderValue : 10);
+    settingsTable.isconnected <- device.isconnected();
+    return http.jsonencode(settingsTable);
 }
 
 // RUNTIME START
@@ -70,7 +71,7 @@ api.get("/applewatchexample/state", function(context) {
     // The code add ".1" or ".0" to the end of the string to indicate whether the
     // device is connected to the agent or not
     server.log("Settings requested");
-    local settingsString = getSettings() + "." + (device.isconnected() ? "1" : "0");
+    local settingsString = getSettings();
     context.send(200, settingsString);
 });
 

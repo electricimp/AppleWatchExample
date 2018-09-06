@@ -32,7 +32,7 @@ The list is sync’d with the Watch by sending a string of all the devices to ap
 
 The code includes a file, `apps.json`, which lists the apps’ UUIDs and human-readable names as an array of objects within the *apps* object:
 
-```
+```json
 { "apps": [
     { "code": "<UUID_1>",
       "name": "APP_NAME_1" },
@@ -73,12 +73,20 @@ The Electric Imp application component of the design makes use of Electric Imp's
 
 `/applewatchexample/appinfo` returns the following JSON:
 
-```
+```json
 { "appcode": "<APP_UUID>",
   "watchsupported": true };
 ```
 
-`/applewatchexample/state` is used to return current device state information. The Watch code expects this in the form of a simple string containing values separated by periods. For example `"1.20.1"`, which indicates the device is on (`1` = on, `0` = off), some value settings is 20, and the device is connected (same binary notation as earlier). However, you are free to choose other structures, such as JSON &mdash; just modify the *WKInterfaceController* sub-class' *urlSession(session, task, didCompleteWithError)* function.
+`/applewatchexample/state` is used to return current device state information. This is provided as a JSON string, derived from the contents of the *settings* table in the function *getSettings()*:
+
+```json
+{ "switchstate": true,
+  "slidervalue": 18,
+  "isconnected": true };
+```
+
+The Watch code expects the data in this form. However, you are free to choose other structures &mdash; just modify the *WKInterfaceController* sub-class' *urlSession(session, task, didCompleteWithError)* function.
 
 In addition, the example code uses the endpoint `/applewatchexample/action` to receive actions from the Watch app. If you are retro-fitting Apple Watch support to an exitsi imp application, you may have your own API already in place. In this case, you should modify the Watch app's control trigger functions accordingly.
 
