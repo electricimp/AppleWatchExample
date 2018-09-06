@@ -12,7 +12,7 @@ Or simply take the code apart and use it as the foundation for a completely diff
 
 This example is fully working. If you have a spare development device, create a Device Group and add the included agent code then run it. You can use Xcode to build and run the iOS and watchOS code in the Simulator, allowing you to run both and see the effects in the impCentral device log.
 
-**Note** Remember to pair a Watch to an iDevice via Xcode's **Devices & Simulators** panel first.
+**Note** Remember to pair a Watch to an iDevice via Xcode's **Devices and Simulators** panel first.
 
 ## Design ##
 
@@ -88,7 +88,7 @@ The Electric Imp application component of the design makes use of Electric Imp's
 
 The Watch code expects the data in this form. However, you are free to choose other structures &mdash; just modify the *WKInterfaceController* sub-class' *urlSession(session, task, didCompleteWithError)* function.
 
-In addition, the example code uses the endpoint `/applewatchexample/action` to receive actions from the Watch app. If you are retro-fitting Apple Watch support to an exitsi imp application, you may have your own API already in place. In this case, you should modify the Watch app's control trigger functions accordingly.
+In addition, the example code uses the endpoint `/applewatchexample/action` to receive actions from the Watch app. If you are retro-fitting Apple Watch support to an existing imp application, you may have your own API already in place. In this case, you should modify the Watch app's control trigger functions accordingly.
 
 ### Notes ###
 

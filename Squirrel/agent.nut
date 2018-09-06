@@ -49,15 +49,16 @@ api.get("/applewatchexample/appinfo", function(context) {
     
     // NOTE Use the next two lines for the sample MyFirstApp, or comment them out and
     //      uncomment the subsequent two lines for the sample MySecondApp (values from apps.json)
+    /*
     // MyFirstApp
     local info = { "appcode": "8B6B3A11-00B4-4304-BE27-ABD11DB1B774",
                    "watchsupported": "true" };
-
-    /*
+    */
+    
     // MySecondApp
     local info = { "appcode": "DCD2B79C-4467-433C-B0D3-7448EDA17575",
                    "watchsupported": "true" };
-    */
+    
 
     server.log("App info requested by Watch");
     context.send(200, http.jsonencode(info));
