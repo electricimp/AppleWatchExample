@@ -28,12 +28,15 @@
 
 import Foundation
 
-    // This class provides
+    // This class provides a simple means to hold a list of devices as a singleton
+    // available in common to all other classes
 
 class DeviceList: NSObject, NSCoding {
 
+    // MARK: Class Singleton Properties
     static let sharedDevices: DeviceList = DeviceList()
 
+    // MARK: Class Properties
     var devices: [Device] = []
     var currentDevice: Int = -1
 
@@ -47,7 +50,7 @@ class DeviceList: NSObject, NSCoding {
     }
 
     
-    // MARK: - NSCoding Methods
+    // MARK: - Coding Methods
 
     func encode(with encoder:NSCoder) {
 

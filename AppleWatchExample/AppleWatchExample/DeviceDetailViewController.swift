@@ -33,6 +33,7 @@ class DeviceDetailViewController: UIViewController,
     URLSessionDataDelegate {
 
 
+    // MARK: Class Outlets
     @IBOutlet weak var nameLabel: UILabel!
     @IBOutlet weak var nameField: UITextField!
     @IBOutlet weak var codeField: UITextField!
@@ -43,6 +44,7 @@ class DeviceDetailViewController: UIViewController,
     @IBOutlet weak var appTypeField: UITextField!
     @IBOutlet weak var supportLabel: UILabel!
     
+    // MARK: Class Properties
     var myDevices: DeviceList!
     var currentDevice: Device!
     var receivedData: NSMutableData! = nil

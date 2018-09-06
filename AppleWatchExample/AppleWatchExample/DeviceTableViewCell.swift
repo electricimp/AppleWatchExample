@@ -30,13 +30,17 @@ import UIKit
 
 class DeviceTableViewCell: UITableViewCell {
 
+    // MARK: Class Outlets
     @IBOutlet weak var installSwitch: UISwitch!
     @IBOutlet weak var appName: UILabel!
     @IBOutlet weak var appCode: UILabel!
     @IBOutlet weak var appIcon: UIImageView!
-    
+
+    // MARK: Class Properties
     var rowIndex: Int = -1
 
+
+    // MARK: - Lifecycle Functions
 
     override func awakeFromNib() {
         
@@ -46,6 +50,9 @@ class DeviceTableViewCell: UITableViewCell {
         self.installSwitch.addTarget(self, action: #selector(self.flipSwitch), for: UIControlEvents.touchUpInside)
     }
 
+
+    // MARK: - Control Action Functions
+    
     @objc func flipSwitch() {
 
         // The user wants to install or un-install the device from the watch

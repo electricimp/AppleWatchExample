@@ -50,9 +50,11 @@ class DeviceTableViewController: UITableViewController, WCSessionDelegate {
     var apps: [String : Any] = [:]
     
     // MARK: Class Constants
-    let STATE_INSTALLING = 1
-    let STATE_REMOVING = 0
-    let STATE_NONE = -1
+    enum State {
+        static let Installing = 1
+        static let Removing = 0
+        static let None = -1
+    }
 
     
     // MARK: - Lifecycle Functions
@@ -93,7 +95,7 @@ class DeviceTableViewController: UITableViewController, WCSessionDelegate {
                        name: NSNotification.Name.init("com.ei.applewatchexample.install.switch.hit"),
                        object: nil)
         
-        // Read in the current apps list
+        // Read in the current apps list, if present
         do {
             if let file = Bundle.main.url(forResource: "apps", withExtension: "json") {
                 let data = try Data(contentsOf: file)
@@ -175,7 +177,7 @@ class DeviceTableViewController: UITableViewController, WCSessionDelegate {
     }
     
     
-    // MARK: - Control Methods
+    // MARK: - Control Functions
 
     @objc func editTouched() {
 
@@ -269,6 +271,9 @@ class DeviceTableViewController: UITableViewController, WCSessionDelegate {
         self.present(actionMenu, animated: true, completion: nil)
     }
 
+
+    // MARK: Menu Action Functions
+
     @objc func updateWatch() {
 
         // Send the app list
@@ -345,7 +350,7 @@ class DeviceTableViewController: UITableViewController, WCSessionDelegate {
     }
 
 
-    // MARK: - Table view data source
+    // MARK: - Table Data Source and Delegate Functons
 
     override func numberOfSections(in tableView: UITableView) -> Int {
 
@@ -539,6 +544,9 @@ class DeviceTableViewController: UITableViewController, WCSessionDelegate {
 
         // NOP - Function required by delegate but not used
     }
+
+
+    // MARK: - App-to-Watch Data Transmission Functions
     
     @objc func doInstall(_ note: Notification) {
         
@@ -572,7 +580,7 @@ class DeviceTableViewController: UITableViewController, WCSessionDelegate {
                     // Add the device to the sync list if:
                     //   It's installed but not set to be removed
                     //   It's not installed but set to be installed
-                    if (aDevice.isInstalled && aDevice.installState != self.STATE_REMOVING) || aDevice.installState == self.STATE_INSTALLING {
+                    if (aDevice.isInstalled && aDevice.installState != State.Removing) || aDevice.installState == State.Installing {
                         dataString = dataString + aDevice.name + "\n" + aDevice.code + "\n" + aDevice.app + "\n\n"
                     }
                 }
@@ -593,13 +601,13 @@ class DeviceTableViewController: UITableViewController, WCSessionDelegate {
                 if self.myDevices.devices.count > 0 {
                     for i in 0..<self.myDevices.devices.count {
                         let aDevice: Device = self.myDevices.devices[i]
-                        if aDevice.installState == self.STATE_INSTALLING {
+                        if aDevice.installState == State.Installing {
                             // Device was being installed; now it is
-                            aDevice.installState = self.STATE_NONE
+                            aDevice.installState = State.None
                             aDevice.isInstalled = true
-                        } else if aDevice.installState == self.STATE_REMOVING {
+                        } else if aDevice.installState == State.Removing {
                             // Device was being removed; now it is
-                            aDevice.installState = self.STATE_NONE
+                            aDevice.installState = State.None
                             aDevice.isInstalled = false
                         }
 
@@ -619,7 +627,7 @@ class DeviceTableViewController: UITableViewController, WCSessionDelegate {
                 if self.myDevices.devices.count > 0 {
                     for i in 0..<self.myDevices.devices.count {
                         let aDevice: Device = self.myDevices.devices[i]
-                        aDevice.installState = self.STATE_NONE
+                        aDevice.installState = State.None
                     }
                 }
                 

@@ -30,6 +30,7 @@ import Foundation
 
 class Device: NSObject, NSCoding {
 
+    // MARK: Class Properties
     var name: String = ""
     var code: String = ""
     var app: String = ""
@@ -38,9 +39,12 @@ class Device: NSObject, NSCoding {
     var isInstalled: Bool = false
     var installState: Int = -1
     
-    let STATE_INSTALLING = 1
-    let STATE_REMOVING = 0
-    let STATE_NONE = -1
+    // MARK: Class Constants
+    enum State {
+        static let Installing = 1
+        static let Removing = 0
+        static let None = -1
+    }
 
     
     // MARK: - Initialization Methods
@@ -53,11 +57,11 @@ class Device: NSObject, NSCoding {
         self.watchSupported = false
         self.isInstalled = false
         self.hasChanged = false
-        self.installState = self.STATE_NONE
+        self.installState = State.None
     }
 
 
-    // MARK: - NSCoding Methods
+    // MARK: - Coding Methods
 
     required init?(coder decoder: NSCoder) {
 
@@ -67,7 +71,7 @@ class Device: NSObject, NSCoding {
         self.watchSupported = false
         self.isInstalled = false
         self.hasChanged = false
-        self.installState = self.STATE_NONE
+        self.installState = State.None
         
         if let n = decoder.decodeObject(forKey: "device.name") { self.name = n as! String }
         if let c = decoder.decodeObject(forKey: "device.code") { self.code = c as! String }

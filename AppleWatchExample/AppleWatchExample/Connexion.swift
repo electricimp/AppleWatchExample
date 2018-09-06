@@ -30,6 +30,11 @@ import Foundation
 
 class Connexion: NSObject {
 
+    // This is a simple data structure used to hold key information about
+    // a single connection attempt being made to the impCloud.
+    // We used a class rather than a Swift structure because we want
+    // it to be passed by reference rather than as a value
+
     var task:URLSessionTask?
     var data:NSMutableData?
     var actionCode:Int = -1
