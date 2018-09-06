@@ -50,7 +50,8 @@ class InterfaceController: WKInterfaceController, WCSessionDelegate {
     override func awake(withContext context: Any?) {
 
         super.awake(withContext: context)
-        
+
+        // Set up app and UI
         self.myDevices = DeviceList()
         self.watchSession.delegate = self
         self.watchSession.activate()
@@ -109,7 +110,7 @@ class InterfaceController: WKInterfaceController, WCSessionDelegate {
     }
 
 
-    // MARK: - Misc Methods
+    // MARK: - Utility Functions
 
     func saveDevices() {
 
