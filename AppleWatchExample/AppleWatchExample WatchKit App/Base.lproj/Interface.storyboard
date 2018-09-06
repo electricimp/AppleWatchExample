@@ -1,0 +1,153 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<document type="com.apple.InterfaceBuilder.WatchKit.Storyboard" version="3.0" toolsVersion="14113" targetRuntime="watchKit" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" colorMatched="YES" initialViewController="AgC-eL-Hgc">
+    <device id="watch42" orientation="portrait">
+        <adaptation id="fullscreen"/>
+    </device>
+    <dependencies>
+        <deployment identifier="watchOS"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="14088"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBWatchKitPlugin" version="14033"/>
+    </dependencies>
+    <scenes>
+        <!--Interface Controller-->
+        <scene sceneID="aou-V4-d1y">
+            <objects>
+                <controller id="AgC-eL-Hgc" customClass="InterfaceController" customModule="AppleWatchExample_WatchKit_App" customModuleProvider="target">
+                    <items>
+                        <table alignment="left" id="sq3-4n-gMP">
+                            <items>
+                                <tableRow identifier="main.table.row" id="v88-F7-ZTE" customClass="TableRow" customModule="AppleWatchExample_WatchKit_Extension">
+                                    <group key="rootItem" width="1" alignment="left" id="JWy-ju-Ak6">
+                                        <items>
+                                            <imageView width="32" height="32" alignment="right" verticalAlignment="center" id="sAi-w3-mbZ"/>
+                                            <label width="111" alignment="left" verticalAlignment="center" text="Label" id="tVX-Vo-Vds">
+                                                <color key="textColor" red="0.049625284970000003" green="0.66577929260000002" blue="0.70767682789999997" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                            </label>
+                                        </items>
+                                        <color key="backgroundColor" red="0.83741801979999997" green="0.83743780850000005" blue="0.83742713930000001" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                    </group>
+                                    <connections>
+                                        <outlet property="appIcon" destination="sAi-w3-mbZ" id="0Xh-4z-3bL"/>
+                                        <outlet property="nameLabel" destination="tVX-Vo-Vds" id="cnf-Uq-L3r"/>
+                                    </connections>
+                                </tableRow>
+                            </items>
+                        </table>
+                    </items>
+                    <connections>
+                        <outlet property="deviceTable" destination="sq3-4n-gMP" id="VGM-SH-mAw"/>
+                    </connections>
+                </controller>
+            </objects>
+            <point key="canvasLocation" x="34" y="81.512820512820525"/>
+        </scene>
+        <!--myfirstapp.ui-->
+        <scene sceneID="OL0-0h-2Ve">
+            <objects>
+                <controller identifier="myfirstapp.ui" id="fin-kO-E0C" customClass="MyFirstAppInterfaceController" customModule="AppleWatchExample_WatchKit_Extension">
+                    <items>
+                        <label alignment="left" text="Label" id="Ykf-HG-qx7">
+                            <fontDescription key="font" type="system" weight="medium" pointSize="16"/>
+                        </label>
+                        <group width="1" alignment="left" id="gri-Wv-Fpx">
+                            <items>
+                                <imageView width="16" height="16" alignment="right" image="offline" id="3J3-m5-aOr"/>
+                                <label alignment="left" text="MyFirstApp" id="s40-Nd-qyE">
+                                    <fontDescription key="font" type="italicSystem" pointSize="13"/>
+                                </label>
+                            </items>
+                        </group>
+                        <switch width="1" alignment="left" value="YES" enabled="NO" title="Switch" id="zgp-5Z-FuZ">
+                            <color key="tintColor" red="0.049625284970000003" green="0.66577929260000002" blue="0.70767682789999997" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                            <connections>
+                                <action selector="setStateWithValue:" destination="fin-kO-E0C" id="THf-3J-GTg"/>
+                            </connections>
+                        </switch>
+                        <slider width="1" alignment="left" enabled="NO" continuous="YES" value="10" maximum="20" steps="5" id="4mE-KG-46d">
+                            <color key="color" red="0.049625284970000003" green="0.66577929260000002" blue="0.70767682789999997" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                            <connections>
+                                <action selector="setSliderValueWithValue:" destination="fin-kO-E0C" id="D6O-TZ-oAB"/>
+                            </connections>
+                        </slider>
+                        <button width="1" alignment="left" title="Button" enabled="NO" id="s3W-gT-ZWn">
+                            <color key="backgroundColor" red="0.049625284970000003" green="0.66577929260000002" blue="0.70767682789999997" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                            <connections>
+                                <action selector="update:" destination="fin-kO-E0C" id="NSs-uG-WE6"/>
+                            </connections>
+                        </button>
+                        <separator alignment="left" id="bbe-At-7cE"/>
+                        <button width="1" alignment="left" title="Back" id="lRo-Ky-oNf">
+                            <color key="titleColor" red="0.99999600649999998" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                            <color key="backgroundColor" red="0.049625284970000003" green="0.66577929260000002" blue="0.70767682789999997" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                            <connections>
+                                <action selector="back:" destination="fin-kO-E0C" id="n5L-WC-O5O"/>
+                            </connections>
+                        </button>
+                    </items>
+                    <connections>
+                        <outlet property="deviceLabel" destination="Ykf-HG-qx7" id="Vnb-e1-kdH"/>
+                        <outlet property="stateImage" destination="3J3-m5-aOr" id="UoB-Ee-pR8"/>
+                        <outlet property="stateSwitch" destination="zgp-5Z-FuZ" id="qW6-Tr-F7s"/>
+                        <outlet property="updateButton" destination="s3W-gT-ZWn" id="GmX-5l-A2l"/>
+                        <outlet property="valueSlider" destination="4mE-KG-46d" id="Jyw-hN-Lqo"/>
+                    </connections>
+                </controller>
+            </objects>
+            <point key="canvasLocation" x="261" y="100"/>
+        </scene>
+        <!--mysecondapp.ui-->
+        <scene sceneID="OOG-i9-eeD">
+            <objects>
+                <controller identifier="mysecondapp.ui" id="HaP-qG-gVq" customClass="MySecondAppInterfaceController" customModule="AppleWatchExample_WatchKit_Extension">
+                    <items>
+                        <label alignment="left" text="Label" id="glj-56-ujA">
+                            <fontDescription key="font" type="system" weight="medium" pointSize="16"/>
+                        </label>
+                        <group width="1" alignment="left" id="59I-zv-kBs">
+                            <items>
+                                <imageView width="16" height="16" alignment="right" image="offline" id="PxQ-HX-V84"/>
+                                <label alignment="left" text="MySecondApp" id="kwJ-nw-RP2">
+                                    <fontDescription key="font" type="italicSystem" pointSize="13"/>
+                                </label>
+                            </items>
+                        </group>
+                        <switch width="1" alignment="left" value="YES" enabled="NO" title="Switch" id="k8T-It-tK7">
+                            <color key="tintColor" red="0.049625284970000003" green="0.66577929260000002" blue="0.70767682789999997" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                            <connections>
+                                <action selector="setStateWithValue:" destination="HaP-qG-gVq" id="wBe-IA-HiD"/>
+                            </connections>
+                        </switch>
+                        <slider width="1" alignment="left" enabled="NO" continuous="YES" value="10" maximum="20" steps="5" id="PgM-wC-jcG">
+                            <color key="color" red="0.049625284970000003" green="0.66577929260000002" blue="0.70767682789999997" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                            <connections>
+                                <action selector="setSliderValueWithValue:" destination="HaP-qG-gVq" id="jW7-Nx-pbi"/>
+                            </connections>
+                        </slider>
+                        <button width="1" alignment="left" title="Button" enabled="NO" id="0Y7-bd-oHs">
+                            <color key="backgroundColor" red="0.049625284970000003" green="0.66577929260000002" blue="0.70767682789999997" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                            <connections>
+                                <action selector="update:" destination="HaP-qG-gVq" id="Dr8-75-ATb"/>
+                            </connections>
+                        </button>
+                        <separator alignment="left" id="g3B-rN-wOW"/>
+                        <button width="1" alignment="left" title="Back" id="Bqa-zD-G9z">
+                            <color key="titleColor" red="0.99999600649999998" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                            <color key="backgroundColor" red="0.049625284970000003" green="0.66577929260000002" blue="0.70767682789999997" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                            <connections>
+                                <action selector="back:" destination="HaP-qG-gVq" id="xpy-cx-T0i"/>
+                            </connections>
+                        </button>
+                    </items>
+                    <connections>
+                        <outlet property="deviceLabel" destination="glj-56-ujA" id="gfK-1R-tRZ"/>
+                        <outlet property="stateImage" destination="PxQ-HX-V84" id="Wq4-CC-mnM"/>
+                        <outlet property="stateSwitch" destination="k8T-It-tK7" id="X7f-w7-ZOr"/>
+                        <outlet property="updateButton" destination="0Y7-bd-oHs" id="MEr-pi-PlP"/>
+                        <outlet property="valueSlider" destination="PgM-wC-jcG" id="djR-I2-oT4"/>
+                    </connections>
+                </controller>
+            </objects>
+            <point key="canvasLocation" x="480" y="99"/>
+        </scene>
+    </scenes>
+</document>
