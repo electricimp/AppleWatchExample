@@ -53,7 +53,7 @@
                             <items>
                                 <imageView width="16" height="16" alignment="right" image="offline" id="3J3-m5-aOr"/>
                                 <label alignment="left" text="MyFirstApp" id="s40-Nd-qyE">
-                                    <fontDescription key="font" type="italicSystem" pointSize="12"/>
+                                    <fontDescription key="font" type="italicSystem" pointSize="13"/>
                                 </label>
                             </items>
                         </group>
@@ -94,6 +94,60 @@
                 </controller>
             </objects>
             <point key="canvasLocation" x="261" y="100"/>
+        </scene>
+        <!--mysecondapp.ui-->
+        <scene sceneID="OOG-i9-eeD">
+            <objects>
+                <controller identifier="mysecondapp.ui" id="HaP-qG-gVq" customClass="MySecondAppInterfaceController" customModule="AppleWatchExample_WatchKit_Extension">
+                    <items>
+                        <label alignment="left" text="Label" id="glj-56-ujA">
+                            <fontDescription key="font" type="system" weight="medium" pointSize="16"/>
+                        </label>
+                        <group width="1" alignment="left" id="59I-zv-kBs">
+                            <items>
+                                <imageView width="16" height="16" alignment="right" image="offline" id="PxQ-HX-V84"/>
+                                <label alignment="left" text="MySecondApp" id="kwJ-nw-RP2">
+                                    <fontDescription key="font" type="italicSystem" pointSize="13"/>
+                                </label>
+                            </items>
+                        </group>
+                        <switch width="1" alignment="left" value="YES" enabled="NO" title="Switch" id="k8T-It-tK7">
+                            <color key="tintColor" red="0.049625284970000003" green="0.66577929260000002" blue="0.70767682789999997" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                            <connections>
+                                <action selector="setStateWithValue:" destination="HaP-qG-gVq" id="wBe-IA-HiD"/>
+                            </connections>
+                        </switch>
+                        <slider width="1" alignment="left" enabled="NO" continuous="YES" value="10" maximum="20" steps="5" id="PgM-wC-jcG">
+                            <color key="color" red="0.049625284970000003" green="0.66577929260000002" blue="0.70767682789999997" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                            <connections>
+                                <action selector="setSliderValueWithValue:" destination="HaP-qG-gVq" id="jW7-Nx-pbi"/>
+                            </connections>
+                        </slider>
+                        <button width="1" alignment="left" title="Button" enabled="NO" id="0Y7-bd-oHs">
+                            <color key="backgroundColor" red="0.049625284970000003" green="0.66577929260000002" blue="0.70767682789999997" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                            <connections>
+                                <action selector="update:" destination="HaP-qG-gVq" id="Dr8-75-ATb"/>
+                            </connections>
+                        </button>
+                        <separator alignment="left" id="g3B-rN-wOW"/>
+                        <button width="1" alignment="left" title="Back" id="Bqa-zD-G9z">
+                            <color key="titleColor" red="0.99999600649999998" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                            <color key="backgroundColor" red="0.049625284970000003" green="0.66577929260000002" blue="0.70767682789999997" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                            <connections>
+                                <action selector="back:" destination="HaP-qG-gVq" id="xpy-cx-T0i"/>
+                            </connections>
+                        </button>
+                    </items>
+                    <connections>
+                        <outlet property="deviceLabel" destination="glj-56-ujA" id="gfK-1R-tRZ"/>
+                        <outlet property="stateImage" destination="PxQ-HX-V84" id="Wq4-CC-mnM"/>
+                        <outlet property="stateSwitch" destination="k8T-It-tK7" id="X7f-w7-ZOr"/>
+                        <outlet property="updateButton" destination="0Y7-bd-oHs" id="MEr-pi-PlP"/>
+                        <outlet property="valueSlider" destination="PgM-wC-jcG" id="djR-I2-oT4"/>
+                    </connections>
+                </controller>
+            </objects>
+            <point key="canvasLocation" x="480" y="99"/>
         </scene>
     </scenes>
 </document>

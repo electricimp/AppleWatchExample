@@ -1,5 +1,5 @@
 //
-//  Connection.swift
+//  Connexion.swift
 //  AppleWatchExample
 //
 //  Copyright © 2018 Electric Imp. All rights reserved.

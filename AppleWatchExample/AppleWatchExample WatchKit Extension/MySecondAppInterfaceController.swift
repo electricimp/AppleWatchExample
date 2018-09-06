@@ -1,5 +1,5 @@
 //
-//  MyFirstAppInterfaceController.swift
+//  MySecondAppInterfaceController.swift
 //  AppleWatchExample WatchKit Extension
 //
 //  Copyright © 2018 Electric Imp. All rights reserved.
@@ -28,7 +28,7 @@
 import WatchKit
 
 
-class MyFirstAppInterfaceController: WKInterfaceController, URLSessionDataDelegate {
+class MySecondAppInterfaceController: WKInterfaceController, URLSessionDataDelegate {
 
     // MARK: Generic outlets
     @IBOutlet weak var deviceLabel: WKInterfaceLabel!
@@ -51,7 +51,7 @@ class MyFirstAppInterfaceController: WKInterfaceController, URLSessionDataDelega
     // NOTE The 'Back' button should be considered as generic to all apps
 
     // MARK: App-specific properties
-    let appName: String = "MyFirstApp"
+    let appName: String = "MySecondApp"
 
 
     // MARK: - Generic Lifecycle Functions

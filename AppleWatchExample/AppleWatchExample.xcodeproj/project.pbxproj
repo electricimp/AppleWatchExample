@@ -25,6 +25,7 @@
 		3BA0FC86214001470021B1B4 /* DeviceTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3BA0FC81214001460021B1B4 /* DeviceTableViewController.swift */; };
 		3BA0FC88214003BD0021B1B4 /* DeviceDetailViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3BA0FC87214003BD0021B1B4 /* DeviceDetailViewController.swift */; };
 		3BA0FC8A214003EB0021B1B4 /* apps.json in Resources */ = {isa = PBXBuildFile; fileRef = 3BA0FC89214003EB0021B1B4 /* apps.json */; };
+		3BD5942521413FA000CB6E53 /* MySecondAppInterfaceController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3BD5942421413FA000CB6E53 /* MySecondAppInterfaceController.swift */; };
 		3BD5D0A62140232500AAAF16 /* Device.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3BD5D0A42140232400AAAF16 /* Device.swift */; };
 		3BD5D0A72140232500AAAF16 /* DeviceList.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3BD5D0A52140232500AAAF16 /* DeviceList.swift */; };
 		3BD5D0A9214023BA00AAAF16 /* TableRow.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3BD5D0A8214023BA00AAAF16 /* TableRow.swift */; };
@@ -98,6 +99,7 @@
 		3BA0FC81214001460021B1B4 /* DeviceTableViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DeviceTableViewController.swift; sourceTree = "<group>"; };
 		3BA0FC87214003BD0021B1B4 /* DeviceDetailViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DeviceDetailViewController.swift; sourceTree = "<group>"; };
 		3BA0FC89214003EB0021B1B4 /* apps.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; name = apps.json; path = ../../apps.json; sourceTree = "<group>"; };
+		3BD5942421413FA000CB6E53 /* MySecondAppInterfaceController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MySecondAppInterfaceController.swift; sourceTree = "<group>"; };
 		3BD5D0A42140232400AAAF16 /* Device.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = Device.swift; path = AppleWatchExample/Device.swift; sourceTree = SOURCE_ROOT; };
 		3BD5D0A52140232500AAAF16 /* DeviceList.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = DeviceList.swift; path = AppleWatchExample/DeviceList.swift; sourceTree = SOURCE_ROOT; };
 		3BD5D0A8214023BA00AAAF16 /* TableRow.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TableRow.swift; sourceTree = "<group>"; };
@@ -179,6 +181,7 @@
 				3BA0FC69214000A30021B1B4 /* InterfaceController.swift */,
 				3BA0FC6B214000A30021B1B4 /* ExtensionDelegate.swift */,
 				3BD5D0AC2140251000AAAF16 /* MyFirstAppInterfaceController.swift */,
+				3BD5942421413FA000CB6E53 /* MySecondAppInterfaceController.swift */,
 				3BD5D0A8214023BA00AAAF16 /* TableRow.swift */,
 				3BD5D0AE21402BFD00AAAF16 /* Connexion.swift */,
 				3BD5D0A42140232400AAAF16 /* Device.swift */,
@@ -345,6 +348,7 @@
 				3BA0FC6A214000A30021B1B4 /* InterfaceController.swift in Sources */,
 				3BD5D0AF21402BFD00AAAF16 /* Connexion.swift in Sources */,
 				3BD5D0A72140232500AAAF16 /* DeviceList.swift in Sources */,
+				3BD5942521413FA000CB6E53 /* MySecondAppInterfaceController.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
