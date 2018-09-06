@@ -8,6 +8,12 @@ The iPhone app provides a means to add devices — enter the device’s agent ID
 
 Or simply take the code apart and use it as the foundation for a completely different UI — the choice is yours.
 
+## Testing ##
+
+This example is fully working. If you have a spare development device, create a Device Group and add the included agent code then run it. You can use Xcode to build and run the iOS and watchOS code in the Simulator, allowing you to run both and see the effects in the impCentral device log.
+
+**Note** Remember to pair a Watch to an iDevice via Xcode's **Devices & Simulators** panel first.
+
 ## Design ##
 
 ### iOS App ###
@@ -73,6 +79,8 @@ The Electric Imp application component of the design makes use of Electric Imp's
 ```
 
 `/applewatchexample/state` is used to return current device state information. The Watch code expects this in the form of a simple string containing values separated by periods. For example `"1.20.1"`, which indicates the device is on (`1` = on, `0` = off), some value settings is 20, and the device is connected (same binary notation as earlier). However, you are free to choose other structures, such as JSON &mdash; just modify the *WKInterfaceController* sub-class' *urlSession(session, task, didCompleteWithError)* function.
+
+In addition, the example code uses the endpoint `/applewatchexample/action` to receive actions from the Watch app. If you are retro-fitting Apple Watch support to an exitsi imp application, you may have your own API already in place. In this case, you should modify the Watch app's control trigger functions accordingly.
 
 ### Notes ###
 
