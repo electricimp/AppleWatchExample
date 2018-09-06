@@ -1,8 +1,8 @@
-
-//  DeviceDetailViewController.swift
-//  Created by Tony Smith on 1/16/18.
 //
-//  Copyright 2017-18 Tony Smith
+//  DeviceDetailViewController.swift
+//  AppleWatchExample
+//
+//  Copyright © 2018 Electric Imp. All rights reserved.
 //
 //  SPDX-License-Identifier: MIT
 //
